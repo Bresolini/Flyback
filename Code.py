@@ -77,7 +77,7 @@ Vro = (Vsat - Vdc)/2   # (V) Tensao refletida
 # Dimensionamento do indutor
 Ae = 0.2*sqrt(Pi)/fs   # (m²) Area efetiva do nucleo
 print('A area projetado eh: %d mm²' %(Ae*1e6))
-Ae = 85.97   # (mm²) Area efetiva do nucleo
+Ae = 122.0   # (mm²) Area efetiva do nucleo
 print('A area comercial eh: %d mm²' %(Ae))
 
 """
@@ -102,12 +102,12 @@ print('A area comercial eh: %d mm²' %(Ae))
             |___________________________________________________________|
 """
 
-hs = 6.3         # (mm)  Altura
-cc = 7.5 + 0     # (mm)  Comprimento central
-ct = 18.6 - 0    # (mm)  Comprimento total
+hs = 9.7         # (mm)  Altura
+cc = 7.2 + 0     # (mm)  Comprimento central
+ct = 19.5 - 0    # (mm)  Comprimento total
 A = hs*(ct-cc)   # (mm²) Area disponivel no nucleo
 
-Al = 75   # (nH/volta²) Vallor AL sem GAP
+Al = 100   # (nH/volta²) Vallor AL sem GAP
 
 Bsat = 0.3   # (T) Quando nao ha dados, admitir que seja entre 0,3 a 0,35
 
@@ -130,14 +130,17 @@ ISrms = ceil( ISrms*1e2 )/1e2
 print('Corrente rms no secundario: %0.2f A' %(ISrms))
 
 # O fio escolhido no secundario eh AWG 10, D = 2,588 mm
-Af = 2.588**2*pi/4   # (mm²) Area do fio
-Sf = Af*Ns           # (mm²) Area ocupada pelas espiras
+Afp = 0.9113**2*pi/4   # (mm²) Area do fio primario
+Sfp = Afp*Np           # (mm²) Area ocupada pelas espiras primario
+Afs = 2.588**2*pi/4    # (mm²) Area do fio secundario
+Sfs = Afs*Ns           # (mm²) Area ocupada pelas espiras secundario
 
 print('Area disponivel no nucleo: %d mm²' %(A))
-print('Area ocupada pelos fios do secundario: %d mm²' %(Sf))
+print('Area ocupada pelos fios do primario: %d mm²' %(Sfp))
+print('Area ocupada pelos fios do secundario: %d mm²' %(Sfs))
 
 # Verifica se a area do nucleo eh necessaria
-if (0.4*A > Ns*Af):
+if (0.4*A > Sfs and 0.4*A > Sfp):
     print('Os fios do secundario NAO OCUPAM 40% do espaço!')
 else:
     print('DEVE-SE AUMENTAR O NUCLEO! AREA INSUFICIENTE PARA OS FIOS!')
